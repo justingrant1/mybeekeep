@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BeeKeeper Pro - Calendar Demo</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        padding: 0;
+        background-color: #f9f9f9;
+      }
+      
+      .calendar-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      h1 {
+        color: #f5a623;
+        margin-bottom: 0.5rem;
+      }
+      
+      p {
+        color: #666;
+        margin-bottom: 2rem;
+      }
+      
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      
+      .footer {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+        color: #666;
+        font-size: 0.875rem;
+      }
+
+      /* Calendar grid styles */
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 0.5rem;
+      }
+      
+      .calendar-day-header {
+        text-align: center;
+        font-weight: bold;
+        padding: 0.5rem;
+        background-color: #f5a623;
+        color: white;
+        border-radius: 4px;
+      }
+      
+      .calendar-day {
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        min-height: 100px;
+        padding: 0.5rem;
+        background-color: white;
+      }
+      
+      .calendar-day.today {
+        border: 2px solid #f5a623;
+        background-color: #fff9e6;
+      }
+      
+      .calendar-day-number {
+        font-size: 0.875rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+      
+      .calendar-event {
+        margin-bottom: 0.25rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      
+      .event-inspection {
+        background-color: #4CAF50;
+        color: white;
+      }
+      
+      .event-treatment {
+        background-color: #F44336;
+        color: white;
+      }
+      
+      .event-equipment {
+        background-color: #795548;
+        color: white;
+      }
+      
+      /* Toolbar styles */
+      .calendar-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      
+      .calendar-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .month-title {
+        margin: 0 1rem;
+        font-size: 1.25rem;
+        font-weight: 500;
+      }
+      
+      button {
+        background-color: #f5a623;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+      }
+      
+      button:hover {
+        background-color: #e09820;
+      }
+      
+      .icon-button {
+        background-color: transparent;
+        color: #333;
+        padding: 0.25rem;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      
+      .icon-button:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calendar-container">
+      <div class="header">
+        <h1>BeeKeeper Pro</h1>
+        <p>Calendar & Seasonal Activity Management</p>
+      </div>
+      
+      <div class="calendar">
+        <!-- Calendar Toolbar -->
+        <div class="calendar-toolbar">
+          <div class="calendar-nav">
+            <button class="icon-button">&lt;</button>
+            <div class="month-title">March 2025</div>
+            <button class="icon-button">&gt;</button>
+            <button>Today</button>
+          </div>
+          <div>
+            <button>+ Add Event</button>
+          </div>
+        </div>
+        
+        <!-- Calendar Grid -->
+        <div class="calendar-grid">
+          <!-- Day Headers -->
+          <div class="calendar-day-header">Sun</div>
+          <div class="calendar-day-header">Mon</div>
+          <div class="calendar-day-header">Tue</div>
+          <div class="calendar-day-header">Wed</div>
+          <div class="calendar-day-header">Thu</div>
+          <div class="calendar-day-header">Fri</div>
+          <div class="calendar-day-header">Sat</div>
+          
+          <!-- Week 1 -->
+          <div class="calendar-day">
+            <div class="calendar-day-number">1</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">2</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">3</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">4</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">5</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">6</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">7</div>
+          </div>
+          
+          <!-- Week 2 -->
+          <div class="calendar-day">
+            <div class="calendar-day-number">8</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">9</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">10</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">11</div>
+            <div class="calendar-event event-treatment">Varroa Mite Treatment</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">12</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">13</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">14</div>
+          </div>
+          
+          <!-- Week 3 -->
+          <div class="calendar-day">
+            <div class="calendar-day-number">15</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">16</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">17</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">18</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">19</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">20</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">21</div>
+          </div>
+          
+          <!-- Week 4 -->
+          <div class="calendar-day">
+            <div class="calendar-day-number">22</div>
+            <div class="calendar-event event-inspection">Spring Hive Inspection</div>
+            <div class="calendar-event event-equipment">Add Honey Super</div>
+          </div>
+          <div class="calendar-day today">
+            <div class="calendar-day-number">23</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">24</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">25</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">26</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">27</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">28</div>
+          </div>
+          
+          <!-- Week 5 -->
+          <div class="calendar-day">
+            <div class="calendar-day-number">29</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">30</div>
+          </div>
+          <div class="calendar-day">
+            <div class="calendar-day-number">31</div>
+          </div>
+          <div class="calendar-day"></div>
+          <div class="calendar-day"></div>
+          <div class="calendar-day"></div>
+          <div class="calendar-day"></div>
+        </div>
+      </div>
+      
+      <div class="footer">
+        <p>BeeKeeper Pro Calendar - © 2025 BeeKeeper Pro</p>
+        <p>A sample beekeeping management calendar for the React & TypeScript Calendar component</p>
+      </div>
+    </div>
+  </body>
+</html>
