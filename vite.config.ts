@@ -10,7 +10,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      uuid: 'uuid/dist/esm-browser/index.js'
+      uuid: resolve(__dirname, 'node_modules/uuid/dist/esm-browser/index.js')
     }
   },
   base: '/', // Ensure correct base path for deployment
