@@ -24,7 +24,11 @@ interface AuthContextType {
   isPremium: boolean;
   error: string | null;
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  signUp: (email: string, password: string, name: string) => Promise<{ success: boolean; error?: string }>;
+  signUp: (email: string, password: string, name: string) => Promise<{ 
+    success: boolean; 
+    error?: string;
+    message?: string;
+  }>;
   signOut: () => Promise<void>;
   refetchProfile: () => Promise<void>;
   setIsPremium: (isPremium: boolean) => void;
@@ -202,26 +206,55 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     console.log('Attempting sign up for:', email);
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: { full_name: name }
+          data: { full_name: name },
+          emailRedirectTo: window.location.origin
         }
       });
       
       if (error) throw error;
-      
-      console.log('Sign up successful');
-      setError(null);
-      return { success: true };
+
+      // Check if we got a session and user back
+      if (data?.session && data?.user) {
+        console.log('Sign up successful with immediate session');
+        // Create the user profile
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert([
+            {
+              id: data.user.id,
+              full_name: name,
+              is_premium: false
+            }
+          ]);
+
+        if (profileError) {
+          console.error('Error creating profile:', profileError);
+          throw profileError;
+        }
+
+        // Session will be handled by onAuthStateChange
+        setError(null);
+        return { success: true };
+      } else {
+        // No session means email confirmation is required
+        console.log('Sign up successful - email confirmation required');
+        setError(null);
+        return { 
+          success: true, 
+          message: 'Please check your email to confirm your account before signing in.' 
+        };
+      }
     } catch (error) {
       console.error('Sign up error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
-      // Loading state will be updated by onAuthStateChange
+      setLoading(false);
     }
   };
 
