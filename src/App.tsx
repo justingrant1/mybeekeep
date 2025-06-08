@@ -111,6 +111,17 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+// Root route handler - redirects based on auth state
+const RootRoute = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return user ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />;
+};
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -134,105 +145,32 @@ const AppRoutes = () => {
 
       {/* Protected routes */}
       <Route
-        path="/dashboard"
+        path="/"
         element={
           <ProtectedRoute>
-            <Dashboard />
+            <Outlet />
           </ProtectedRoute>
         }
-      />
-      <Route
-        path="/apiaries"
-        element={
-          <ProtectedRoute>
-            <ApiaryList />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/apiaries/:apiaryId"
-        element={
-          <ProtectedRoute>
-            <HiveList />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/hives/:hiveId"
-        element={
-          <ProtectedRoute>
-            <HiveDetail />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/hives/:hiveId/inspections/new"
-        element={
-          <ProtectedRoute>
-            <InspectionForm />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/hives/:hiveId/harvests/new"
-        element={
-          <ProtectedRoute>
-            <HarvestForm />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/hives/:hiveId/treatments/new"
-        element={
-          <ProtectedRoute>
-            <TreatmentForm />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/equipment"
-        element={
-          <ProtectedRoute>
-            <EquipmentList />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/premium"
-        element={
-          <ProtectedRoute>
-            <PremiumPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/analytics"
-        element={
-          <ProtectedRoute>
-            <AnalyticsDashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/weather"
-        element={
-          <ProtectedRoute>
-            <ApiaryWeather />
-          </ProtectedRoute>
-        }
-      />
-      
-      <Route
-        path="/calendar"
-        element={
-          <ProtectedRoute>
-            <CalendarView />
-          </ProtectedRoute>
-        }
-      />
+      >
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="apiaries" element={<ApiaryList />} />
+        <Route path="hives" element={<HiveList />} />
+        <Route path="hives/:id" element={<HiveDetail />} />
+        <Route path="inspections/new" element={<InspectionForm />} />
+        <Route path="inspections/:id" element={<InspectionForm />} />
+        <Route path="harvests/new" element={<HarvestForm />} />
+        <Route path="harvests/:id" element={<HarvestForm />} />
+        <Route path="treatments/new" element={<TreatmentForm />} />
+        <Route path="treatments/:id" element={<TreatmentForm />} />
+        <Route path="equipment" element={<EquipmentList />} />
+        <Route path="premium" element={<PremiumPage />} />
+        <Route path="analytics" element={<AnalyticsDashboard />} />
+        <Route path="weather" element={<ApiaryWeather />} />
+        <Route path="calendar" element={<CalendarView />} />
+      </Route>
 
-      {/* Redirect root to dashboard or login */}
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      {/* Root route - redirects based on auth state */}
+      <Route index element={<RootRoute />} />
 
       {/* Catch all - 404 */}
       <Route
@@ -297,8 +235,8 @@ function App() {
                 <Routes>
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
-                  <Route path="/" element={<MainLayout><Outlet /></MainLayout>}>
-                    <Route index element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/" element={<ProtectedRoute><Outlet /></ProtectedRoute>}>
+                    <Route index element={<RootRoute />} />
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="apiaries" element={<ApiaryList />} />
                     <Route path="hives" element={<HiveList />} />
