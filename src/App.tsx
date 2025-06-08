@@ -18,6 +18,7 @@ import PremiumPage from './pages/premium/PremiumPage';
 import AnalyticsDashboard from './pages/analytics/AnalyticsDashboard';
 import ApiaryWeather from './pages/weather/ApiaryWeather';
 import CalendarView from './components/Calendar/CalendarView';
+import { useEffect } from 'react';
 
 // Create a custom theme
 const theme = createTheme({
@@ -246,20 +247,81 @@ const AppRoutes = () => {
   );
 };
 
+// Error Boundary Component
+class ErrorBoundary extends React.Component<{ children: React.ReactNode }, { hasError: boolean, error: Error | null }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('App Error:', error);
+    console.error('Error Info:', errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ padding: '20px', color: 'red' }}>
+          <h1>Something went wrong.</h1>
+          <pre>{this.state.error?.message}</pre>
+          <button onClick={() => window.location.reload()}>Reload App</button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 function App() {
+  useEffect(() => {
+    console.log('App component mounted');
+    return () => {
+      console.log('App component unmounted');
+    };
+  }, []);
+
   return (
+    <ErrorBoundary>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router>
-          <AuthProvider>
-            <NotificationsProvider>
-              <EquipmentProvider>
-                <AppRoutes />
-              </EquipmentProvider>
-            </NotificationsProvider>
-          </AuthProvider>
-        </Router>
+        <AuthProvider>
+          <NotificationsProvider>
+            <EquipmentProvider>
+              <Router>
+                <Routes>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/" element={<MainLayout />}>
+                    <Route index element={<Navigate to="/dashboard" replace />} />
+                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="apiaries" element={<ApiaryList />} />
+                    <Route path="hives" element={<HiveList />} />
+                    <Route path="hives/:id" element={<HiveDetail />} />
+                    <Route path="inspections/new" element={<InspectionForm />} />
+                    <Route path="inspections/:id" element={<InspectionForm />} />
+                    <Route path="harvests/new" element={<HarvestForm />} />
+                    <Route path="harvests/:id" element={<HarvestForm />} />
+                    <Route path="treatments/new" element={<TreatmentForm />} />
+                    <Route path="treatments/:id" element={<TreatmentForm />} />
+                    <Route path="equipment" element={<EquipmentList />} />
+                    <Route path="premium" element={<PremiumPage />} />
+                    <Route path="analytics" element={<AnalyticsDashboard />} />
+                    <Route path="weather" element={<ApiaryWeather />} />
+                    <Route path="calendar" element={<CalendarView />} />
+                  </Route>
+                </Routes>
+              </Router>
+            </EquipmentProvider>
+          </NotificationsProvider>
+        </AuthProvider>
       </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 
