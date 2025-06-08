@@ -27,7 +27,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useNotifications } from '../../contexts/NotificationsContext';
-import { Notification } from '../../lib/supabase';
+import { Notification } from '../../contexts/NotificationsContext';
 
 const NotificationsMenu: React.FC = () => {
   const { notifications, unreadCount, loading, markAsRead, markAllAsRead } = useNotifications();
