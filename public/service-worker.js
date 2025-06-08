@@ -50,6 +50,11 @@ self.addEventListener('activate', (event) => {
 
 // Fetch event - serve from cache, then network with cache refresh
 self.addEventListener('fetch', (event) => {
+  // Ignore requests for browser extensions
+  if (event.request.url.startsWith('chrome-extension://')) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
@@ -79,6 +84,11 @@ self.addEventListener('fetch', (event) => {
 
 // Helper function to fetch and update cache
 function fetchAndUpdateCache(request) {
+  // Only cache http and https requests
+  if (!request.url.startsWith('http')) {
+    return fetch(request);
+  }
+
   return fetch(request)
     .then((response) => {
       // Return early if response is invalid
