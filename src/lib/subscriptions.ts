@@ -1,8 +1,7 @@
-import { RealtimeChannel } from '@supabase/supabase-js';
 import { supabase } from './supabase';
 
 export type SubscriptionCallback<T> = (payload: {
-  new: T | null;
+  new: T;
   old: T | null;
   eventType: 'INSERT' | 'UPDATE' | 'DELETE';
 }) => void;
@@ -32,18 +31,18 @@ export const subscribeToTable = <T extends Record<string, any>>(
   // Configure the channel to listen for Postgres changes
   channel
     .on(
-      'postgres_changes',
+      'postgres_changes' as any,
       {
-        event: event === '*' ? undefined : event,
+        event: event,
         schema: schema,
         table: table,
         filter: filter,
       },
-      (payload) => {
+      (payload: any) => {
         callback({
-          new: payload.new as T || null,
-          old: payload.old as T || null, 
-          eventType: payload.eventType as 'INSERT' | 'UPDATE' | 'DELETE',
+          new: payload.new as T,
+          old: payload.old as T,
+          eventType: payload.eventType,
         });
       }
     )

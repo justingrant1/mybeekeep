@@ -118,7 +118,7 @@ const InspectionForm: React.FC = () => {
     setHealthStatus(event.target.value as 'excellent' | 'good' | 'fair' | 'poor' | 'critical');
   };
 
-  const handlePopulationStrengthChange = (event: Event, newValue: number | number[]) => {
+  const handlePopulationStrengthChange = (_event: Event, newValue: number | number[]) => {
     setPopulationStrength(newValue as number);
   };
 

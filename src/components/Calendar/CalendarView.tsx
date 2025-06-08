@@ -20,7 +20,6 @@ import {
   FormControlLabel,
   Switch,
   useTheme,
-  useMediaQuery,
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
@@ -150,8 +149,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({
   const { user } = useAuth();
   
   const [currentDate, setCurrentDate] = useState<Date>(initialDate);
-  const [apiaries, setApiaries] = useState<{ id: string; name: string }[]>([]);
-  const [hives, setHives] = useState<{ id: string; name: string; apiary_id: string }[]>([]);
   const [viewMode, setViewMode] = useState<ViewMode>(initialView);
   const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -167,7 +164,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
     priority: 'medium',
     reminders: [],
   });
-  const [filters, setFilters] = useState<FilterOptions>({
+  const [filters] = useState<FilterOptions>({
     types: Object.values(EventType),
     hiveIds: [],
     showCompleted: false,
@@ -182,15 +179,13 @@ const CalendarView: React.FC<CalendarViewProps> = ({
         .select('id, name')
         .eq('user_id', user.id);
       if (apiaryError) console.error('Error fetching apiaries', apiaryError);
-      else setApiaries(apiaryData || []);
 
       if (apiaryData) {
-        const { data: hiveData, error: hiveError } = await supabase
+        const { error: hiveError } = await supabase
           .from('hives')
           .select('id, name, apiary_id')
           .in('apiary_id', apiaryData.map(a => a.id));
         if (hiveError) console.error('Error fetching hives', hiveError);
-        else setHives(hiveData || []);
       }
     };
     fetchData();
@@ -482,7 +477,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({
         ))}
         
         {/* Day cells */}
-        {days.map((day, index) => (
+        {days.map((day: Date, index: number) => (
           <Grid item xs={12/7} key={index}>
             {renderDay(day, isSameMonth(day, currentDate))}
           </Grid>

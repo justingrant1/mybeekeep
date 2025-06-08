@@ -42,7 +42,7 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   // Keep track of any screen size changes here
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { user, signOut, isPremium } = useAuth();
+  const { signOut, isPremium } = useAuth();
   const theme = useTheme();
   const location = useLocation();
   const navigate = useNavigate();

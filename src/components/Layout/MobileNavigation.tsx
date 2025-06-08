@@ -10,7 +10,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  IconButton,
   Typography,
   Divider,
   Badge,
@@ -26,7 +25,6 @@ import {
   WbSunny as WeatherIcon,
   Settings as SettingsIcon,
   ExitToApp as LogoutIcon,
-  NotificationsOutlined as NotificationsIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNotifications } from '../../contexts/NotificationsContext';

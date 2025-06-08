@@ -23,7 +23,7 @@ export function validateCSRFToken(token: string): boolean {
 }
 
 // Session management utilities
-export function invalidateAllSessions(supabase: SupabaseClient, userId: string): Promise<any> {
+export function invalidateAllSessions(supabase: SupabaseClient): Promise<any> {
   return supabase.auth.signOut(); // Sign out current session
 }
 

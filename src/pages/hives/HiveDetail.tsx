@@ -24,7 +24,6 @@ import {
   Healing as TreatmentIcon,
 } from '@mui/icons-material';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import { Hive, Apiary, Inspection, Harvest, Treatment } from '../../lib/types';
 import { useRealtimeRecord, useRealtimeHiveRecords } from '../../hooks/useRealtimeSubscription';
@@ -161,7 +160,7 @@ const HiveDetail: React.FC = () => {
     };
   }, [hiveId, fetchHiveData]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 

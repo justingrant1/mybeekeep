@@ -26,7 +26,6 @@ import {
 } from '@mui/material';
 import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import { Hive, Apiary } from '../../lib/types';
 
@@ -35,7 +34,6 @@ const HiveList: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { apiaryId } = useParams<{ apiaryId: string }>();
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [hives, setHives] = useState<Hive[]>([]);
   const [apiary, setApiary] = useState<Apiary | null>(null);
   const [loading, setLoading] = useState(true);

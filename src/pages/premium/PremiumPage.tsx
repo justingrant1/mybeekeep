@@ -25,7 +25,6 @@ import {
 } from '@mui/material';
 import {
   CheckCircle as CheckIcon,
-  Cancel as CancelIcon,
   Inventory as InventoryIcon,
   Assessment as AnalyticsIcon,
   BarChart as ChartsIcon,

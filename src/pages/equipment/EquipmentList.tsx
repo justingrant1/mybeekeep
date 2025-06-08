@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   Grid,
-  Divider,
   Chip,
   IconButton,
   TextField,
@@ -203,7 +202,7 @@ const EquipmentList: React.FC = () => {
     await deleteEquipment(id);
   };
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 

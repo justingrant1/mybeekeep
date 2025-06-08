@@ -30,7 +30,6 @@ import {
   Delete as DeleteIcon,
   Backup as BackupIcon,
   Restore as RestoreIcon,
-  Security as SecurityIcon,
 } from '@mui/icons-material';
 
 import { useAuth } from '../../contexts/AuthContext';
@@ -38,7 +37,6 @@ import { supabase } from '../../lib/supabase';
 import {
   PrivacySettings as PrivacySettingsType,
   loadPrivacySettings,
-  savePrivacySettings,
   updatePrivacySetting,
   exportUserData,
   importUserData,
@@ -55,11 +53,9 @@ const PrivacySettingsPage: React.FC = () => {
   const [exportDialogOpen, setExportDialogOpen] = useState(false);
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [confirmPasswordDialogOpen, setConfirmPasswordDialogOpen] = useState(false);
   const [backupDialogOpen, setBackupDialogOpen] = useState(false);
   const [restoreDialogOpen, setRestoreDialogOpen] = useState(false);
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -765,7 +761,7 @@ const PrivacySettingsPage: React.FC = () => {
             control={
               <Switch
                 checked={isImportEncrypted}
-                onChange={(e, checked) => setIsImportEncrypted(checked)}
+                onChange={(_e, checked) => setIsImportEncrypted(checked)}
               />
             }
             label="File is encrypted"
@@ -818,7 +814,7 @@ const PrivacySettingsPage: React.FC = () => {
             control={
               <Switch
                 checked={deleteAccount}
-                onChange={(e, checked) => setDeleteAccount(checked)}
+                onChange={(_e, checked) => setDeleteAccount(checked)}
               />
             }
             label="Also delete my account"
@@ -830,14 +826,14 @@ const PrivacySettingsPage: React.FC = () => {
               : 'This will delete all your data but keep your account active.'}
           </Alert>
           
-          <TextField
-            margin="dense"
-            label="Type 'delete my data' to confirm"
-            fullWidth
-            variant="outlined"
-            value={confirmationText}
-            onChange={(e) => setConfirmationText(e.target.value)}
-          />
+            <TextField
+              margin="dense"
+              label="Type 'delete my data' to confirm"
+              fullWidth
+              variant="outlined"
+              value={confirmationText}
+              onChange={(e) => setConfirmationText(e.target.value)}
+            />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDeleteDialog}>Cancel</Button>

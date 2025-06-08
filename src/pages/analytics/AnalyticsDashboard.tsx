@@ -297,7 +297,7 @@ const AnalyticsDashboard: React.FC = () => {
     setSelectedTimeRange(event.target.value);
   };
   
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
   
