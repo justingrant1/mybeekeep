@@ -8,6 +8,11 @@ export default defineConfig({
   optimizeDeps: {
     include: ['uuid']
   },
+  resolve: {
+    alias: {
+      uuid: 'uuid/dist/esm-browser/index.js'
+    }
+  },
   base: '/', // Ensure correct base path for deployment
   build: {
     outDir: 'dist',
