@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
 
         if (apiariesError) throw apiariesError;
 
-        const apiaryIds = apiaries.map((a) => a.id);
+        const apiaryIds = (apiaries || []).map((a) => a.id);
 
         let hiveCount = 0;
         let inspectionCount = 0;
@@ -68,7 +68,7 @@ const Dashboard: React.FC = () => {
           if (hivesError) throw hivesError;
           
           hiveCount = hivesTotal || 0;
-          const hiveIds = hives.map((h) => h.id);
+          const hiveIds = (hives || []).map((h) => h.id);
 
           if (hiveIds.length > 0) {
             // Get inspection count
