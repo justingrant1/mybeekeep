@@ -42,37 +42,58 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchStats = async () => {
       if (!user) return;
-      
+
       try {
-        // Get apiary count
-        const { count: apiaryCount } = await supabase
+        // Get apiaries for the user
+        const { data: apiaries, error: apiariesError, count: apiaryCount } = await supabase
           .from('apiaries')
-          .select('*', { count: 'exact', head: true })
+          .select('id', { count: 'exact' })
           .eq('user_id', user.id);
-        
-        // Get hive count
-        const { count: hiveCount } = await supabase
-          .from('hives')
-          .select('*', { count: 'exact', head: true })
-          .eq('apiary_id', supabase.from('apiaries').select('id').eq('user_id', user.id));
-        
-        // Get inspection count
-        const { count: inspectionCount } = await supabase
-          .from('inspections')
-          .select('*', { count: 'exact', head: true })
-          .eq('hive_id', supabase.from('hives').select('id').eq('apiary_id', supabase.from('apiaries').select('id').eq('user_id', user.id)));
-        
-        // Get harvest count
-        const { count: harvestCount } = await supabase
-          .from('harvests')
-          .select('*', { count: 'exact', head: true })
-          .eq('hive_id', supabase.from('hives').select('id').eq('apiary_id', supabase.from('apiaries').select('id').eq('user_id', user.id)));
+
+        if (apiariesError) throw apiariesError;
+
+        const apiaryIds = apiaries.map((a) => a.id);
+
+        let hiveCount = 0;
+        let inspectionCount = 0;
+        let harvestCount = 0;
+
+        if (apiaryIds.length > 0) {
+          // Get hives for the user's apiaries
+          const { data: hives, error: hivesError, count: hivesTotal } = await supabase
+            .from('hives')
+            .select('id', { count: 'exact' })
+            .in('apiary_id', apiaryIds);
+
+          if (hivesError) throw hivesError;
+          
+          hiveCount = hivesTotal || 0;
+          const hiveIds = hives.map((h) => h.id);
+
+          if (hiveIds.length > 0) {
+            // Get inspection count
+            const { count: inspCount, error: inspError } = await supabase
+              .from('inspections')
+              .select('*', { count: 'exact', head: true })
+              .in('hive_id', hiveIds);
+            if (inspError) throw inspError;
+            inspectionCount = inspCount || 0;
+
+            // Get harvest count
+            const { count: harvCount, error: harvError } = await supabase
+              .from('harvests')
+              .select('*', { count: 'exact', head: true })
+              .in('hive_id', hiveIds);
+            if (harvError) throw harvError;
+            harvestCount = harvCount || 0;
+          }
+        }
         
         setStats({
           apiaryCount: apiaryCount || 0,
-          hiveCount: hiveCount || 0,
-          inspectionCount: inspectionCount || 0,
-          harvestCount: harvestCount || 0,
+          hiveCount,
+          inspectionCount,
+          harvestCount,
         });
       } catch (error) {
         console.error('Error fetching dashboard stats:', error);
@@ -80,7 +101,7 @@ const Dashboard: React.FC = () => {
         setLoading(false);
       }
     };
-    
+
     fetchStats();
   }, [user]);
 

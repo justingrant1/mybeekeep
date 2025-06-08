@@ -21,7 +21,6 @@ import {
   Switch,
   useTheme,
   useMediaQuery,
-  SelectChangeEvent,
 } from '@mui/material';
 import {
   ArrowBack as ArrowBackIcon,
@@ -148,7 +147,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({
   initialView = 'month',
 }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { user } = useAuth();
   
   const [currentDate, setCurrentDate] = useState<Date>(initialDate);
@@ -484,8 +482,8 @@ const CalendarView: React.FC<CalendarViewProps> = ({
         ))}
         
         {/* Day cells */}
-        {days.map((day) => (
-          <Grid item xs={12/7} key={day.toString()}>
+        {days.map((day, index) => (
+          <Grid item xs={12/7} key={index}>
             {renderDay(day, isSameMonth(day, currentDate))}
           </Grid>
         ))}

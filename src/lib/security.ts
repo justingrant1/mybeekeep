@@ -177,7 +177,7 @@ export function applyCSPHeaders(): void {
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       font-src 'self' https://fonts.gstatic.com;
       img-src 'self' data: https://*.supabase.co;
-      connect-src 'self' https://*.supabase.co;
+      connect-src 'self' https://*.supabase.co wss://*.supabase.co;
       frame-src 'none';
     `.replace(/\s+/g, ' ').trim();
     
