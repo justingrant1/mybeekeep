@@ -1,2 +1,1 @@
-declare module 'date-fns';
-declare module 'uuid'; 
+declare module 'date-fns'; 

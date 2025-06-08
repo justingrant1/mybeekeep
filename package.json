@@ -17,6 +17,7 @@
     "@mui/material": "^6.4.8",
     "@supabase/supabase-js": "^2.49.1",
     "@types/react-router-dom": "^5.3.3",
+    "date-fns": "^4.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.0"

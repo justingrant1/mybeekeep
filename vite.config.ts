@@ -6,7 +6,7 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ['uuid', 'date-fns'],
+    include: ['date-fns'],
     force: true
   },
   base: '/', // Ensure correct base path for deployment
@@ -15,10 +15,9 @@ export default defineConfig({
     assetsDir: 'assets',
     sourcemap: true,
     commonjsOptions: {
-      include: [/uuid/, /node_modules/]
+      include: [/node_modules/]
     },
     rollupOptions: {
-      external: [], // Don't externalize uuid
       output: {
         manualChunks: {
           // Separate vendor code from application code
@@ -32,11 +31,6 @@ export default defineConfig({
     },
     // Ensure we're setting a proper publicPath
     emptyOutDir: true,
-  },
-  resolve: {
-    alias: {
-      'uuid': 'uuid' // Add explicit alias
-    }
   },
   server: {
     port: 5173,
