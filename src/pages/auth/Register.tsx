@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -8,6 +8,7 @@ import {
   Paper,
   Alert,
   Link as MuiLink,
+  CircularProgress,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -19,8 +20,16 @@ const Register: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { signUp } = useAuth();
+  const [registrationComplete, setRegistrationComplete] = useState(false);
+  const { signUp, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+
+  // Handle successful registration and navigation
+  useEffect(() => {
+    if (registrationComplete && user) {
+      navigate('/dashboard');
+    }
+  }, [registrationComplete, user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,14 +59,26 @@ const Register: React.FC = () => {
         throw error;
       }
       
-      navigate('/dashboard');
+      setRegistrationComplete(true);
+      // Don't navigate here - wait for auth state to update
     } catch (err) {
       console.error('Registration error:', err);
       setError('Failed to create an account. Please try again.');
+      setRegistrationComplete(false);
     } finally {
       setLoading(false);
     }
   };
+
+  // Show loading state while waiting for auth
+  if (registrationComplete && authLoading) {
+    return (
+      <Container maxWidth="sm" sx={{ mt: 8, textAlign: 'center' }}>
+        <CircularProgress />
+        <Typography sx={{ mt: 2 }}>Setting up your account...</Typography>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="sm" sx={{ mt: 8 }}>
