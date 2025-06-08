@@ -30,7 +30,7 @@ interface DashboardStats {
 }
 
 const Dashboard: React.FC = () => {
-  const { user, profile } = useAuth();
+  const { user } = useAuth();
   const [stats, setStats] = useState<DashboardStats>({
     apiaryCount: 0,
     hiveCount: 0,
@@ -110,7 +110,7 @@ const Dashboard: React.FC = () => {
         mb: 4 
       }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Welcome, {profile?.full_name || 'Beekeeper'}
+          Welcome, {user?.profile?.full_name || 'Beekeeper'}
         </Typography>
         <Button
           variant="contained"

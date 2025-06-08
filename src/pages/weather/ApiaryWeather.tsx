@@ -30,7 +30,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
-import { Apiary } from '../../lib/supabase';
+import { Apiary } from '../../lib/types';
 
 // Mock weather API response interface
 interface WeatherData {

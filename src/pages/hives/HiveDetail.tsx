@@ -26,7 +26,7 @@ import {
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
-import { Hive, Apiary, Inspection, Harvest, Treatment } from '../../lib/supabase';
+import { Hive, Apiary, Inspection, Harvest, Treatment } from '../../lib/types';
 import { useRealtimeRecord, useRealtimeHiveRecords } from '../../hooks/useRealtimeSubscription';
 
 interface TabPanelProps {

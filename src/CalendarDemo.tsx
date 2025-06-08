@@ -23,18 +23,6 @@ const theme = createTheme({
   }
 });
 
-// Sample data
-const demoApiaries = [
-  { id: '1', name: 'Meadow Apiary' },
-  { id: '2', name: 'Forest Edge Apiary' }
-];
-
-const demoHives = [
-  { id: '1', name: 'Queen Bee', apiary_id: '1' },
-  { id: '2', name: 'Worker Bee', apiary_id: '1' },
-  { id: '3', name: 'Honey Maker', apiary_id: '2' }
-];
-
 const CalendarDemo: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -49,10 +37,7 @@ const CalendarDemo: React.FC = () => {
           </Typography>
           
           <Box sx={{ mt: 4, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 3 }}>
-            <CalendarView 
-              apiaries={demoApiaries} 
-              hives={demoHives} 
-            />
+            <CalendarView />
           </Box>
         </Box>
       </Container>

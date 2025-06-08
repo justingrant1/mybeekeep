@@ -31,7 +31,7 @@ import {
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
-import { Hive, Apiary, Inspection } from '../../lib/supabase';
+import { Hive, Apiary, Inspection } from '../../lib/types';
 import { uploadInspectionPhoto, initializeStorage } from '../../lib/storage';
 
 const InspectionForm: React.FC = () => {

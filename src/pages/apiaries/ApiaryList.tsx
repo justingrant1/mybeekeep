@@ -20,7 +20,7 @@ import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon } from '@mui/ico
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
-import { Apiary } from '../../lib/supabase';
+import { Apiary } from '../../lib/types';
 import { useRealtimeUserRecords } from '../../hooks/useRealtimeSubscription';
 
 const ApiaryList: React.FC = () => {

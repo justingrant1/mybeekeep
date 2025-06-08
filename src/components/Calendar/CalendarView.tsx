@@ -32,13 +32,7 @@ import {
   CalendarViewMonth as CalendarViewMonthIcon,
   ViewDay as ViewDayIcon,
   ViewWeek as ViewWeekIcon,
-  LocationOn as LocationIcon,
-  AccessTime as TimeIcon,
-  Notifications as NotificationsIcon,
-  CheckCircle as CheckCircleIcon,
   FilterList as FilterListIcon,
-  SupervisedUserCircle as ApiaryIcon,
-  Spa as HiveIcon,
   BugReport as TreatmentIcon,
   LocalFlorist as InspectionIcon,
   Grass as FeedingIcon,
@@ -49,35 +43,17 @@ import {
   More as OtherIcon,
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-// Import the date-fns functions correctly
-import { format } from 'date-fns';
-import { addMonths } from 'date-fns';
-import { addDays } from 'date-fns';
-import { subMonths } from 'date-fns';
-import { subDays } from 'date-fns';
-import { isSameDay } from 'date-fns';
-import { isSameMonth } from 'date-fns';
-import { isWithinInterval } from 'date-fns';
-import { startOfMonth } from 'date-fns';
-import { endOfMonth } from 'date-fns';
-import { startOfWeek } from 'date-fns';
-import { endOfWeek } from 'date-fns';
-import { eachDayOfInterval } from 'date-fns';
-import { parseISO } from 'date-fns';
+import { format, addMonths, addDays, subMonths, subDays, isSameDay, isSameMonth, isWithinInterval, startOfMonth, endOfMonth, startOfWeek, endOfWeek, eachDayOfInterval, parseISO } from 'date-fns';
 
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import {
   CalendarEvent,
   EventType,
-  NotificationType,
   getCalendarEvents,
   createCalendarEvent,
   updateCalendarEvent,
   deleteCalendarEvent,
-  completeCalendarEvent,
-  generateRecommendedEvents,
-  CLIMATE_ZONES,
 } from '../../lib/calendar';
 
 // Map event types to icons
@@ -162,14 +138,12 @@ type ViewMode = 'month' | 'week' | 'day' | 'agenda';
 
 // Props for the CalendarView component
 interface CalendarViewProps {
-  onEventClick?: (event: CalendarEvent) => void;
   initialDate?: Date;
   initialView?: ViewMode;
 }
 
 // Main CalendarView component
 const CalendarView: React.FC<CalendarViewProps> = ({
-  onEventClick,
   initialDate = new Date(),
   initialView = 'month',
 }) => {

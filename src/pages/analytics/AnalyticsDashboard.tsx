@@ -22,48 +22,9 @@ import {
   Assessment as AssessmentIcon,
   Visibility as VisibilityIcon,
 } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
-
-// Define data types based on Supabase schema
-export interface Apiary {
-  id: string;
-  name: string;
-}
-
-export interface Hive {
-  id: string;
-  apiary_id: string;
-  name: string;
-}
-
-export interface Inspection {
-  id: string;
-  hive_id: string;
-  inspection_date: string;
-  health_status: string;
-  population_strength?: number;
-  queen_seen: boolean;
-}
-
-export interface Harvest {
-  id: string;
-  hive_id: string;
-  harvest_date: string;
-  honey_amount: number;
-  quality_notes?: string;
-}
-
-export interface Treatment {
-  id: string;
-  hive_id: string;
-  application_date: string;
-  treatment_type: string;
-  completed: boolean;
-  followup_date?: string;
-}
-
+import { Apiary, Hive, Inspection, Harvest, Treatment } from '../../lib/types';
 
 // Mock chart components (in a real app would use a charting library like recharts, chart.js, etc.)
 const MockBarChart: React.FC<{ data: any; title: string }> = ({ data, title }) => (

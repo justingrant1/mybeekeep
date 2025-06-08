@@ -25,7 +25,7 @@ import {
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
-import { Hive, Apiary, Treatment } from '../../lib/supabase';
+import { Hive, Apiary, Treatment } from '../../lib/types';
 
 const TreatmentForm: React.FC = () => {
   const { hiveId } = useParams<{ hiveId: string }>();

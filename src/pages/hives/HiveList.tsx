@@ -28,7 +28,7 @@ import { Add as AddIcon, Delete as DeleteIcon, Edit as EditIcon } from '@mui/ico
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
-import { Hive, Apiary } from '../../lib/supabase';
+import { Hive, Apiary } from '../../lib/types';
 
 const HiveList: React.FC = () => {
   const theme = useTheme();
