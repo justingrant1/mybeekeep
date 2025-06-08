@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -8,6 +8,7 @@ import {
   Paper,
   Alert,
   Link as MuiLink,
+  CircularProgress,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -18,9 +19,18 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { signUp } = useAuth();
+  const [registrationComplete, setRegistrationComplete] = useState(false);
+  const { signUp, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
+
+  // Handle successful registration and navigation
+  useEffect(() => {
+    if (registrationComplete && user) {
+      navigate('/dashboard');
+    }
+  }, [registrationComplete, user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,22 +52,43 @@ const Register: React.FC = () => {
     
     try {
       setError(null);
+      setSuccess(null);
       setLoading(true);
       
-      const { error } = await signUp(email, password, fullName);
+      const response = await signUp(email, password, fullName);
       
-      if (error) {
-        throw error;
+      if (response.error) {
+        throw new Error(response.error);
       }
       
-      navigate('/dashboard');
+      if (response.message) {
+        // Email confirmation required
+        setSuccess(response.message);
+        setTimeout(() => {
+          navigate('/login');
+        }, 5000);
+      } else {
+        // Immediate login successful
+        setRegistrationComplete(true);
+      }
     } catch (err) {
       console.error('Registration error:', err);
-      setError('Failed to create an account. Please try again.');
+      setError(err instanceof Error ? err.message : 'Failed to create an account. Please try again.');
+      setRegistrationComplete(false);
     } finally {
       setLoading(false);
     }
   };
+
+  // Show loading state while waiting for auth
+  if (registrationComplete && authLoading) {
+    return (
+      <Container maxWidth="sm" sx={{ mt: 8, textAlign: 'center' }}>
+        <CircularProgress />
+        <Typography sx={{ mt: 2 }}>Setting up your account...</Typography>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="sm" sx={{ mt: 8 }}>
@@ -81,6 +112,12 @@ const Register: React.FC = () => {
               {error}
             </Alert>
           )}
+
+          {success && (
+            <Alert severity="success" sx={{ width: '100%', mt: 2 }}>
+              {success}
+            </Alert>
+          )}
           
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>
             <TextField
@@ -93,6 +130,7 @@ const Register: React.FC = () => {
               autoFocus
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
+              disabled={loading}
             />
             <TextField
               margin="normal"
@@ -104,6 +142,7 @@ const Register: React.FC = () => {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
             />
             <TextField
               margin="normal"
@@ -116,6 +155,7 @@ const Register: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               helperText="Password must be at least 6 characters long"
+              disabled={loading}
             />
             <TextField
               margin="normal"
@@ -127,13 +167,14 @@ const Register: React.FC = () => {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              disabled={loading}
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={loading}
+              disabled={loading || !!success}
             >
               {loading ? 'Creating Account...' : 'Create Account'}
             </Button>

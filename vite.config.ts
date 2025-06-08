@@ -5,12 +5,18 @@ import { resolve } from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {
+    include: ['date-fns'],
+    force: true
+  },
   base: '/', // Ensure correct base path for deployment
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: true,
-    // Enable SPA mode to serve index.html for all routes
+    commonjsOptions: {
+      include: [/node_modules/]
+    },
     rollupOptions: {
       output: {
         manualChunks: {

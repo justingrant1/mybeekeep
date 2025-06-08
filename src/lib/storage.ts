@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { v4 as uuidv4 } from 'uuid';
+import { generateId } from './idGenerator';
 
 const STORAGE_BUCKET = 'inspection-photos';
 
@@ -35,7 +35,7 @@ export const uploadInspectionPhoto = async (file: File, inspectionId: string): P
   try {
     // Generate a unique filename with original extension
     const fileExt = file.name.split('.').pop();
-    const fileName = `${uuidv4()}.${fileExt}`;
+    const fileName = `${generateId()}.${fileExt}`;
     const filePath = `${inspectionId}/${fileName}`;
     
     // Upload the file

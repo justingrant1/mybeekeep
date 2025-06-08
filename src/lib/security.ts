@@ -1,12 +1,12 @@
 import { SupabaseClient } from '@supabase/supabase-js';
-import { v4 as uuidv4 } from 'uuid';
+import { generateId, generatePrefixedId } from './idGenerator';
 
 // Security token types
 export type TokenType = 'access' | 'refresh' | 'csrf';
 
 // Anti-CSRF token utilities
 export function generateCSRFToken(): string {
-  return uuidv4();
+  return generateId();
 }
 
 export function storeCSRFToken(token: string): void {
@@ -89,7 +89,7 @@ export function isStrongPassword(password: string): {
 
 // Generate secure API keys
 export function generateAPIKey(): string {
-  return `bkp_${uuidv4().replace(/-/g, '')}_${Date.now().toString(36)}`;
+  return generatePrefixedId('bkp', '_') + '_' + Date.now().toString(36);
 }
 
 // Rate limiting

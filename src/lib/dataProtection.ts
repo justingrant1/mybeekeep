@@ -6,7 +6,7 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import { v4 as uuidv4 } from 'uuid';
+import { generateId } from './idGenerator';
 import { encryptionService } from './encryption';
 
 // Types for data export
@@ -334,7 +334,7 @@ async function importApiaries(supabase: SupabaseClient, userId: string, apiaries
     // Prepare apiaries for import - set user_id and generate new ids
     const preparedApiaries = apiaries.map(apiary => ({
       ...apiary,
-      id: uuidv4(), // Generate new ID to avoid collisions
+      id: generateId(), // Generate new ID to avoid collisions
       user_id: userId,
       created_at: new Date().toISOString()
     }));
@@ -358,7 +358,7 @@ async function importHives(supabase: SupabaseClient, hives: any[]): Promise<{ su
     // Prepare hives for import - generate new ids
     const preparedHives = hives.map(hive => ({
       ...hive,
-      id: uuidv4(), // Generate new ID to avoid collisions
+      id: generateId(), // Generate new ID to avoid collisions
       created_at: new Date().toISOString()
     }));
 
@@ -381,7 +381,7 @@ async function importInspections(supabase: SupabaseClient, inspections: any[]): 
     // Prepare inspections for import - generate new ids
     const preparedInspections = inspections.map(inspection => ({
       ...inspection,
-      id: uuidv4(), // Generate new ID to avoid collisions
+      id: generateId(), // Generate new ID to avoid collisions
       created_at: new Date().toISOString()
     }));
 
@@ -404,7 +404,7 @@ async function importHarvests(supabase: SupabaseClient, harvests: any[]): Promis
     // Prepare harvests for import - generate new ids
     const preparedHarvests = harvests.map(harvest => ({
       ...harvest,
-      id: uuidv4(), // Generate new ID to avoid collisions
+      id: generateId(), // Generate new ID to avoid collisions
       created_at: new Date().toISOString()
     }));
 
@@ -427,7 +427,7 @@ async function importTreatments(supabase: SupabaseClient, treatments: any[]): Pr
     // Prepare treatments for import - generate new ids
     const preparedTreatments = treatments.map(treatment => ({
       ...treatment,
-      id: uuidv4(), // Generate new ID to avoid collisions
+      id: generateId(), // Generate new ID to avoid collisions
       created_at: new Date().toISOString()
     }));
 
@@ -450,7 +450,7 @@ async function importEquipment(supabase: SupabaseClient, userId: string, equipme
     // Prepare equipment for import - set user_id and generate new ids
     const preparedEquipment = equipment.map(item => ({
       ...item,
-      id: uuidv4(), // Generate new ID to avoid collisions
+      id: generateId(), // Generate new ID to avoid collisions
       user_id: userId,
       created_at: new Date().toISOString()
     }));

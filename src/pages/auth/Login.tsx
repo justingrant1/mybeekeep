@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -19,8 +19,15 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, error: authError } = useAuth();
   const navigate = useNavigate();
+
+  // Update local error state when auth error changes
+  useEffect(() => {
+    if (authError) {
+      setError(authError);
+    }
+  }, [authError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,13 +44,13 @@ const Login: React.FC = () => {
       const { error } = await signIn(email, password);
       
       if (error) {
-        throw error;
+        throw new Error(error);
       }
       
       navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);
-      setError('Failed to sign in. Please check your credentials.');
+      setError(err instanceof Error ? err.message : 'Failed to sign in. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -107,15 +114,10 @@ const Login: React.FC = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ 
-                mt: 3, 
-                mb: 2,
-                py: 1.5, // Taller button for better touch targets on mobile
-              }}
+              sx={{ mt: 3, mb: 2 }}
               disabled={loading}
-              size={isMobile ? "large" : "medium"}
             >
-              {loading ? 'Signing In...' : 'Sign In'}
+              {loading ? 'Signing in...' : 'Sign In'}
             </Button>
             <Box sx={{ textAlign: 'center' }}>
               <MuiLink component={Link} to="/register" variant="body2">

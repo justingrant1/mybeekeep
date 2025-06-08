@@ -29,7 +29,7 @@ export const subscribeToTable = <T extends Record<string, any>>(
   const channel = supabase.channel(channelName);
   
   // Configure the channel to listen for Postgres changes
-  channel
+  (channel as any)
     .on(
       'postgres_changes' as any,
       {
