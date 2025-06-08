@@ -6,13 +6,8 @@ import { resolve } from 'path'
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    include: ['uuid', 'date-fns']
-  },
-  resolve: {
-    alias: {
-      uuid: resolve(__dirname, 'node_modules/uuid/dist/cjs/index.js'),
-      'date-fns': resolve(__dirname, 'node_modules/date-fns/esm/index.js')
-    }
+    include: ['uuid', 'date-fns'],
+    force: true
   },
   base: '/', // Ensure correct base path for deployment
   build: {
@@ -34,6 +29,9 @@ export default defineConfig({
     },
     // Ensure we're setting a proper publicPath
     emptyOutDir: true,
+    commonjsOptions: {
+      include: [/uuid/, /node_modules/]
+    },
   },
   server: {
     port: 5173,
