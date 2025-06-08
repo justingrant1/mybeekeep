@@ -10,7 +10,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      uuid: resolve(__dirname, 'node_modules/uuid/dist/esm/index.js'),
+      uuid: resolve(__dirname, 'node_modules/uuid/dist/cjs/index.js'),
       'date-fns': resolve(__dirname, 'node_modules/date-fns/esm/index.js')
     }
   },
