@@ -14,8 +14,11 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: true,
-    // Enable SPA mode to serve index.html for all routes
+    commonjsOptions: {
+      include: [/uuid/, /node_modules/]
+    },
     rollupOptions: {
+      external: [], // Don't externalize uuid
       output: {
         manualChunks: {
           // Separate vendor code from application code
@@ -29,9 +32,11 @@ export default defineConfig({
     },
     // Ensure we're setting a proper publicPath
     emptyOutDir: true,
-    commonjsOptions: {
-      include: [/uuid/, /node_modules/]
-    },
+  },
+  resolve: {
+    alias: {
+      'uuid': 'uuid' // Add explicit alias
+    }
   },
   server: {
     port: 5173,
